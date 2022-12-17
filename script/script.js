@@ -81,10 +81,10 @@ function playRound(playerSelection, computerSelection){
     playerHandNumber = handToNumber(playerSelection);
     computerHandNumber = handToNumber(computerSelection);
 
-    var result = mod(playerHandNumber,3) - mod(computerHandNumber,3);
-
+    var result = mod(playerHandNumber - computerHandNumber, 3);
+    console.log(result);
     switch(result) {
-        case -1:
+        case 2:
             return `You lose! ${computerSelection} beats ${playerSelection}`;
             break;
 
@@ -93,7 +93,7 @@ function playRound(playerSelection, computerSelection){
             break;
 
         case 1:
-            return `You win! ${playerSelection} beatsa ${computerSelection}`;
+            return `You win! ${playerSelection} beats ${computerSelection}`;
             break;
         
         default:
@@ -101,11 +101,12 @@ function playRound(playerSelection, computerSelection){
     }
 
 }
+for (var i = 0; i < 5; i++){
+    const computerChoice = getComputerChoice();
+    console.log(`Computer has chosen ${computerChoice}!`);
 
-const computerChoice = getComputerChoice();
-console.log(`Computer has chosen ${computerChoice}!`);
+    const playerChoice = getPlayerChoice();
+    console.log(`You have chosen ${playerChoice}!`);
 
-const playerChoice = getPlayerChoice();
-console.log(`You have chosen ${playerChoice}!`);
-
-console.log(playRound(playerChoice, computerChoice));
+    console.log(playRound(playerChoice, computerChoice));
+}
