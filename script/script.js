@@ -101,12 +101,17 @@ function playRound(playerSelection, computerSelection){
     }
 
 }
-for (var i = 0; i < 5; i++){
-    const computerChoice = getComputerChoice();
-    console.log(`Computer has chosen ${computerChoice}!`);
 
-    const playerChoice = getPlayerChoice();
-    console.log(`You have chosen ${playerChoice}!`);
+function game(){
+    for (var i = 0; i < 5; i++){
+        const computerChoice = getComputerChoice();
+        console.log(`Computer has chosen ${computerChoice}!`);
 
-    console.log(playRound(playerChoice, computerChoice));
+        const playerChoice = getPlayerChoice();
+        console.log(`You have chosen ${playerChoice}!`);
+
+        console.log(playRound(playerChoice, computerChoice));
+    }
 }
+
+game()
