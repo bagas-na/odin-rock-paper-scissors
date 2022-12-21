@@ -1,5 +1,5 @@
 function getComputerChoice () {
-    var hand = Math.floor(Math.random()*3);
+    let hand = Math.floor(Math.random()*3);
     switch (hand) {
         case 0:
             return 'rock';
@@ -19,7 +19,7 @@ function getComputerChoice () {
 }
 
 function getPlayerChoice () {
-    var hand = prompt(
+    let hand = prompt(
         `Input your hand. The choicess are:
         - Rock
         - Paper
@@ -37,7 +37,7 @@ function mod(n, m) {
   }
 
 function numberToHand(handNumber) {
-    var hand = +handNumber;
+    let hand = +handNumber;
     switch (hand) {
         case 0:
             return 'rock';
@@ -57,7 +57,7 @@ function numberToHand(handNumber) {
 }
 
 function handToNumber(hand) {
-    var handName = hand.toLowerCase();
+    let handName = hand.toLowerCase();
 
     switch (handName) {
         case 'rock':
@@ -81,7 +81,7 @@ function playRound(playerSelection, computerSelection){
     playerHandNumber = handToNumber(playerSelection);
     computerHandNumber = handToNumber(computerSelection);
 
-    var result = mod(playerHandNumber - computerHandNumber, 3);
+    let result = mod(playerHandNumber - computerHandNumber, 3);
     // console.log(result);
     switch(result) {
         case 2:
@@ -102,6 +102,25 @@ function playRound(playerSelection, computerSelection){
 
 }
 
+function playResult(playerSelection, computerSelection){
+    // returns an array of [playerScore, computerScore]
+    playerHandNumber = handToNumber(playerSelection);
+    computerHandNumber = handToNumber(computerSelection);
+
+    var result = mod(playerHandNumber - computerHandNumber, 3);
+    // console.log(result);
+    switch(result) {
+        case 2: // Player loses, computer wins
+            return [0, 1];
+
+        case 1: // Player wins, computer loses
+            return [1, 0];
+        
+        default: // Else is a tie
+            return [0, 0];
+    }
+}
+
 function game(){
     for (var i = 0; i < 1; i++){
         const computerChoice = getComputerChoice();
@@ -117,17 +136,29 @@ function game(){
 const resultText = document.querySelector('.result');
 const playerChoiceText = document.querySelector('#player-choice > .choice');
 const computerChoiceText = document.querySelector('#computer-choice > .choice');
+const playerScore = document.querySelector('.player-score');
+const computerScore = document.querySelector('.computer-score');
+
 
 const buttonSelection = document.querySelectorAll('.player-choice > .choices > button');
+// const resetButton = document.createElement('button')
+
 buttonSelection.forEach((button) => {
 
     button.addEventListener(('click'), function(e) {
         const playerChoice = this.value;
         const computerChoice = getComputerChoice();
+        let playScore = playResult(playerChoice, computerChoice);
 
         playerChoiceText.textContent = playerChoice;
         computerChoiceText.textContent = computerChoice;
         resultText.textContent = playRound(playerChoice, computerChoice);
+
+        // Adds player's score
+        playerScore.textContent = +playerScore.textContent + +playScore[0];
+
+        // Adds computer's score
+        computerScore.textContent = +computerScore.textContent + +playScore[1];
 
     });
 });
