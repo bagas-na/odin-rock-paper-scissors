@@ -82,7 +82,7 @@ function playRound(playerSelection, computerSelection){
     computerHandNumber = handToNumber(computerSelection);
 
     var result = mod(playerHandNumber - computerHandNumber, 3);
-    console.log(result);
+    // console.log(result);
     switch(result) {
         case 2:
             return `You lose! ${computerSelection} beats ${playerSelection}`;
@@ -103,7 +103,7 @@ function playRound(playerSelection, computerSelection){
 }
 
 function game(){
-    for (var i = 0; i < 5; i++){
+    for (var i = 0; i < 1; i++){
         const computerChoice = getComputerChoice();
         console.log(`Computer has chosen ${computerChoice}!`);
 
@@ -114,4 +114,20 @@ function game(){
     }
 }
 
-game()
+const resultText = document.querySelector('.result');
+const playerChoiceText = document.querySelector('#player-choice > .choice');
+const computerChoiceText = document.querySelector('#computer-choice > .choice');
+
+const buttonSelection = document.querySelectorAll('.player-choice > .choices > button');
+buttonSelection.forEach((button) => {
+
+    button.addEventListener(('click'), function(e) {
+        const playerChoice = this.value;
+        const computerChoice = getComputerChoice();
+
+        playerChoiceText.textContent = playerChoice;
+        computerChoiceText.textContent = computerChoice;
+        resultText.textContent = playRound(playerChoice, computerChoice);
+
+    });
+});
