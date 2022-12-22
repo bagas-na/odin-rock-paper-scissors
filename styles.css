@@ -29,9 +29,16 @@ div.choice {
     justify-content: space-between;
 }
 
+.results {
+    min-height: 4em;
+    margin-top: 20px;
+    border: 1px solid white;
+}
+
 .results p {
     text-align: center;
 }
+
 
 th, tr, td {
     border: 1px solid white;
@@ -48,4 +55,11 @@ p.choice {
 
 p {
     margin: 0;
+}
+
+/* Tags below are added to an elements using js */
+
+.win-message {
+    font-weight: 600;
+    font-size: 1.5rem;
 }

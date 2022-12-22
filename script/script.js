@@ -85,15 +85,15 @@ function playRound(playerSelection, computerSelection){
     // console.log(result);
     switch(result) {
         case 2:
-            return `You lose! ${computerSelection} beats ${playerSelection}`;
+            return `You lose this round! ${computerSelection} beats ${playerSelection}`;
             break;
 
         case 0:
-            return `You are tied! You both choose ${computerSelection}`;
+            return `You are tied this round! You both choose ${computerSelection}`;
             break;
 
         case 1:
-            return `You win! ${playerSelection} beats ${computerSelection}`;
+            return `You win this round! ${playerSelection} beats ${computerSelection}`;
             break;
         
         default:
@@ -133,6 +133,8 @@ function game(){
     }
 }
 
+const MAX_SCORE = 5;
+
 const resultText = document.querySelector('.result');
 const playerChoiceText = document.querySelector('#player-choice > .choice');
 const computerChoiceText = document.querySelector('#computer-choice > .choice');
@@ -148,17 +150,26 @@ buttonSelection.forEach((button) => {
     button.addEventListener(('click'), function(e) {
         const playerChoice = this.value;
         const computerChoice = getComputerChoice();
+        console.log(`Player Score: ${playerScore.textContent} \| while computer score: ${computerScore.textContent}`);
+        console.log(MAX_SCORE);
+
         let playScore = playResult(playerChoice, computerChoice);
 
         playerChoiceText.textContent = playerChoice;
-        computerChoiceText.textContent = computerChoice;
+        computerChoiceText.textContent = computerChoice;       
         resultText.textContent = playRound(playerChoice, computerChoice);
-
+        console.log(`Player choose '${playerChoice}' and computer choose '${computerChoice}'`);
         // Adds player's score
         playerScore.textContent = +playerScore.textContent + +playScore[0];
 
         // Adds computer's score
         computerScore.textContent = +computerScore.textContent + +playScore[1];
 
+        // Additional action when the protagonist ends with death
+
+        if((playerScore.textContent >= MAX_SCORE)||(computerScore.textContent >= MAX_SCORE)) {
+            alert("Game is over");
+            return null;
+        }
     });
 });
