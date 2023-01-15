@@ -107,7 +107,7 @@ function playResult(playerSelection, computerSelection){
     playerHandNumber = handToNumber(playerSelection);
     computerHandNumber = handToNumber(computerSelection);
 
-    var result = mod(playerHandNumber - computerHandNumber, 3);
+    let result = mod(playerHandNumber - computerHandNumber, 3);
     // console.log(result);
     switch(result) {
         case 2: // Player loses, computer wins
@@ -122,7 +122,7 @@ function playResult(playerSelection, computerSelection){
 }
 
 function game(){
-    for (var i = 0; i < 1; i++){
+    for (let i = 0; i < 1; i++){
         const computerChoice = getComputerChoice();
         console.log(`Computer has chosen ${computerChoice}!`);
 
@@ -133,6 +133,49 @@ function game(){
     }
 }
 
+function gameOver(playerScore, computerScore){
+    const gameOverText = document.createElement('div');
+    gameOverText.classList.add('win-message');
+    const gameResult = document.createElement('div');
+    gameResult.classList.add('win-message');    
+
+    const resetButton = document.createElement('button');
+    resetButton.classList.add("reset");
+    resetButton.classList.add("button");
+    resetButton.textContent = "Reset Game";
+    resetButton.addEventListener(("click"), function(e){
+        playerChoiceText.textContent = "your hand";
+        computerChoiceText.textContent = "computer's hand";  
+
+        playerScore.textContent = 0;
+        computerScore.textContent = 0;
+
+        gameOverText.remove();
+        gameResult.remove();
+        this.remove();
+    });
+
+    gameOverText.textContent = "Game Over";
+
+    if (playerScore.textContent > computerScore.textContent) {
+        gameResult.textContent = "You have won the game!";
+    } else {
+        gameResult.textContent = "You have lost the game :(";
+    };
+
+    bodyElement.appendChild(gameOverText); 
+    bodyElement.appendChild(gameResult); 
+    bodyElement.appendChild(resetButton);
+}
+
+function gameReset(){
+    playerChoiceText.textContent = "your hand";
+    computerChoiceText.textContent = "computer's hand";  
+
+    playerScore.textContent = 0;
+    computerScore.textContent = 0;
+}
+
 const MAX_SCORE = 5;
 
 const resultText = document.querySelector('.result');
@@ -140,7 +183,8 @@ const playerChoiceText = document.querySelector('#player-choice > .choice');
 const computerChoiceText = document.querySelector('#computer-choice > .choice');
 const playerScore = document.querySelector('.player-score');
 const computerScore = document.querySelector('.computer-score');
-
+const scoreTable = document.querySelector('.score');
+const bodyElement = document.querySelector('body');
 
 const buttonSelection = document.querySelectorAll('.player-choice > .choices > button');
 // const resetButton = document.createElement('button')
@@ -148,28 +192,30 @@ const buttonSelection = document.querySelectorAll('.player-choice > .choices > b
 buttonSelection.forEach((button) => {
 
     button.addEventListener(('click'), function(e) {
+        // Action when MAX_SCORE has been reached (Game Over)
+        if((playerScore.textContent >= MAX_SCORE)||(computerScore.textContent >= MAX_SCORE)) {
+            return null;
+        }
+
         const playerChoice = this.value;
         const computerChoice = getComputerChoice();
-        console.log(`Player Score: ${playerScore.textContent} \| while computer score: ${computerScore.textContent}`);
-        console.log(MAX_SCORE);
 
         let playScore = playResult(playerChoice, computerChoice);
 
         playerChoiceText.textContent = playerChoice;
         computerChoiceText.textContent = computerChoice;       
         resultText.textContent = playRound(playerChoice, computerChoice);
-        console.log(`Player choose '${playerChoice}' and computer choose '${computerChoice}'`);
+
         // Adds player's score
         playerScore.textContent = +playerScore.textContent + +playScore[0];
 
         // Adds computer's score
         computerScore.textContent = +computerScore.textContent + +playScore[1];
 
-        // Additional action when the protagonist ends with death
-
         if((playerScore.textContent >= MAX_SCORE)||(computerScore.textContent >= MAX_SCORE)) {
-            alert("Game is over");
+            gameOver(playerScore, computerScore);
             return null;
         }
+        
     });
 });

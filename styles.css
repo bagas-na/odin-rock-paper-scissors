@@ -39,7 +39,6 @@ div.choice {
     text-align: center;
 }
 
-
 th, tr, td {
     border: 1px solid white;
 }
@@ -60,6 +59,11 @@ p {
 /* Tags below are added to an elements using js */
 
 .win-message {
+    margin-top: 20px;
     font-weight: 600;
     font-size: 1.5rem;
+}
+
+.reset {
+    margin: 20px;
 }
